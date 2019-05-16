@@ -56,6 +56,10 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
     
     
+    //auto panSquareRootButtonSate;
+    //auto panSineButtonState;
+    //auto panLinearButtonState;
+    
     
 private:
     
@@ -63,6 +67,9 @@ private:
     
     float* panParameter = nullptr;
     
+    float* panSquareRoot = nullptr;
+    float* panSine = nullptr;
+    float* panLinear = nullptr;
   
    
     AudioProcessorValueTreeState parameters;

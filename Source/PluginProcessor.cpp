@@ -30,15 +30,30 @@ MaggsA3AudioProcessor::MaggsA3AudioProcessor()
                                                                                -100.0f, //min value
                                                                                100.0f, //Max Value
                                                                                0.0f //Default Value
-                                                                               )
+                                                                               ),
+                                         
+                                         std::make_unique<AudioParameterBool>("pan squareroot",//parameter ID
+                                                                              "Pan SquareRoot", // Parameter Name
+                                                                              true), //defualt stat
+                                         
+                                         std::make_unique<AudioParameterBool>("pan sine",//parameter ID
+                                                                              "Pan Sine", // Parameter Name
+                                                                              false), //defualt stat
+                                         
+                                         std::make_unique<AudioParameterBool>("pan linear",//parameter ID
+                                                                              "Pan Linear", // Parameter Name
+                                                                              false) //defualt stat
                                      }
-                                     )
+                            )
 
 #endif
 {
      panParameter = parameters.getRawParameterValue("pan");
+
+    panSquareRoot = parameters.getRawParameterValue("pan squareroot");
+    panSine = parameters.getRawParameterValue("pan sine");
+    panLinear = parameters.getRawParameterValue("pan linear");
     
-   
     
     
 }
@@ -166,21 +181,54 @@ void MaggsA3AudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer
         auto* channelData = buffer.getWritePointer (channel);
         auto* wetData = wetBuffer.getWritePointer(channel);
         
+        //Implement Pan Fucntion
+        //Pan pot / range + 0.5
         auto channelAmplitude = *panParameter /200.0f + 0.5f;
+        
+       
         
         for(int sample = 0; sample < buffer.getNumSamples(); sample++)
         {
         
-        if (channel == 0) 
+        if (channel == 0 && *panSquareRoot ==  1)
         {
             
+            //Square Root panning
            channelData[sample] = wetData[sample] * (sqrt(1-channelAmplitude));
             
         }
-            else if (channel == 1)
+            else if (channel == 1 && *panSquareRoot == 1)
             {
-                
+                //Square Root panning
                channelData[sample] = wetData[sample] * (sqrt(channelAmplitude));
+                
+            }
+            
+            else if (channel == 0 && *panSine == 1)
+            {
+                //Sine panning
+                channelData[sample] = wetData[sample] * (sin((1-channelAmplitude)* MathConstants<float>::pi/2));
+                
+            }
+            
+            else if (channel == 1 && *panSine == 1)
+            {
+                //Sine panning
+                channelData[sample] = wetData[sample] * (sin(channelAmplitude)* MathConstants<float>::pi/2);
+                
+            }
+            
+            else if (channel == 0 && *panLinear == 1)
+            {
+                //Linear panning
+                channelData[sample] = wetData[sample] * (1-channelAmplitude);
+                
+            }
+            
+            else if (channel == 1 && *panLinear == 1)
+            {
+                //Linear panning
+                channelData[sample] = wetData[sample] * channelAmplitude;
                 
             }
 
@@ -205,12 +253,26 @@ void MaggsA3AudioProcessor::getStateInformation (MemoryBlock& destData)
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
+    
+    auto state = parameters.copyState();
+    std::unique_ptr<XmlElement> xml(state.createXml());
+    copyXmlToBinary(*xml, destData);
 }
 
 void MaggsA3AudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
+    
+    std::unique_ptr<XmlElement> xmlState (getXmlFromBinary(data, sizeInBytes));
+    
+    if(xmlState.get() != nullptr)
+    {
+        if(xmlState->hasTagName(parameters.state.getType()))
+        {
+            parameters.replaceState(ValueTree::fromXml(*xmlState));
+        }
+    }
 }
 
 //==============================================================================
