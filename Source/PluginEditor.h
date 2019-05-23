@@ -51,6 +51,7 @@ private:
     ShapeButton panSineButton;
     ShapeButton panLinearButton;
     
+    Image bgImage;
     
     
 
