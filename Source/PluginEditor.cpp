@@ -13,21 +13,23 @@
 
 //==============================================================================
 MaggsA3AudioProcessorEditor::MaggsA3AudioProcessorEditor (MaggsA3AudioProcessor& p, AudioProcessorValueTreeState& vts)
-: AudioProcessorEditor (&p), processor (p), valueTreeState(vts), panSqareRootButton("Pan Sqrt", Colours::skyblue, Colours::turquoise , Colours::limegreen), panSineButton("Pan Sine", Colours::skyblue, Colours::turquoise ,Colours::limegreen),  panLinearButton("Pan Linear", Colours::skyblue, Colours::turquoise , Colours::limegreen)
+: AudioProcessorEditor (&p), processor (p), valueTreeState(vts), panSqareRootButton("Pan Sqrt", Colours::ivory, Colours::lightslategrey, Colours::darkslategrey), panSineButton("Pan Sine", Colours::ivory, Colours::lightslategrey, Colours::darkslategrey),  panLinearButton("Pan Linear", Colours::ivory, Colours::lightslategrey, Colours::darkslategrey)
 
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     setOpaque(true);
-    setResizable(true, true);
-    setResizeLimits(500, 350, 1280, 1080);
+    setResizable(false, false);
+    setResizeLimits(720, 480, 720, 480);
+    
+    bgImage = ImageCache::getFromMemory(BinaryData::photo14644573120353d7d0e0c058e_jpeg, BinaryData::photo14644573120353d7d0e0c058e_jpegSize);
     
     
     panSlider.setSliderStyle(Slider::SliderStyle::RotaryVerticalDrag);
     
     panSlider.setTextValueSuffix("Pan");
     panSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 100, 20);
-    panSlider.setColour(Slider::ColourIds::rotarySliderFillColourId, Colours::blueviolet);
+    panSlider.setColour(Slider::ColourIds::rotarySliderFillColourId, Colours::ivory);
     panSlider.setNumDecimalPlacesToDisplay(1.0f);
     //panLabel.setText("Pan", dontSendNotification);
     //panLabel.attachToComponent(&panSlider, false);
@@ -37,7 +39,7 @@ MaggsA3AudioProcessorEditor::MaggsA3AudioProcessorEditor (MaggsA3AudioProcessor&
     //Make Shape for button
     
     Path shape;
-    shape.addEllipse(31, 31, 31, 31);
+    shape.addEllipse(0, 0, 50, 50);
     
     
     
@@ -48,20 +50,16 @@ MaggsA3AudioProcessorEditor::MaggsA3AudioProcessorEditor (MaggsA3AudioProcessor&
     panSqareRootButton.setRadioGroupId(1);
     panSqareRootButton.setClickingTogglesState(true);
     panSqareRootButton.shouldUseOnColours(true);
-    panSqareRootButton.setOnColours(Colours::limegreen, Colours::darkgreen, Colours::skyblue);
+    panSqareRootButton.setOnColours(Colours::darkslategrey, Colours::ivory, Colours::lightslategrey);
     panSqareRootButton.setShape(shape, true, true, true);
     panSquareRootAttachment.reset(new AudioProcessorValueTreeState::ButtonAttachment(valueTreeState, "pan squareroot", panSqareRootButton));
-    
-    
-    
-    
     
     // Pan sine
     
     panSineButton.setRadioGroupId(1);
     panSineButton.setClickingTogglesState(true);
     panSineButton.shouldUseOnColours(true);
-    panSineButton.setOnColours(Colours::limegreen, Colours::darkgreen, Colours::skyblue);
+    panSineButton.setOnColours(Colours::darkslategrey, Colours::ivory, Colours::lightslategrey);
     panSineButton.setShape(shape, true, true, true);
     panSineAttachment.reset(new AudioProcessorValueTreeState::ButtonAttachment(valueTreeState, "pan sine", panSineButton));
     //Pan Linear
@@ -69,7 +67,7 @@ MaggsA3AudioProcessorEditor::MaggsA3AudioProcessorEditor (MaggsA3AudioProcessor&
     panLinearButton.setRadioGroupId(1);
     panLinearButton.setClickingTogglesState(true);
     panLinearButton.shouldUseOnColours(true);
-    panLinearButton.setOnColours(Colours::limegreen, Colours::darkgreen, Colours::skyblue);
+    panLinearButton.setOnColours(Colours::darkslategrey, Colours::ivory, Colours::lightslategrey);
     panLinearButton.setShape(shape, true, true, true);
     panLinearAttachment.reset(new AudioProcessorValueTreeState::ButtonAttachment(valueTreeState, "pan linear", panLinearButton));
     
@@ -90,25 +88,54 @@ void MaggsA3AudioProcessorEditor::paint (Graphics& g)
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll(Colours::black);
     
-    g.setColour(Colours::blueviolet);
-    g.drawRect(3, 5, (getWidth()-5), 50);
-    g.fillRect(6, 8, (getWidth()-11), 44);
+    g.drawImageWithin(bgImage, 0, 0, getWidth(), getHeight(), RectanglePlacement::fillDestination);
+    
+    g.setColour(Colours::black);
+    g.setOpacity(0.50f);
+    g.drawRect(230, 5, (getWidth()/2.5), getHeight()/7.5);
+    g.fillRect(233, 8, (getWidth()/2.5-6), getHeight()/7.5-6);
+    
+    g.setColour(Colours::black);
+    g.setOpacity(0.50f);
+    g.drawRect(250, 116, (getWidth()/3.3), getHeight()/1.95);
+    g.fillRect(253, 119, (getWidth()/3.3-6), getHeight()/1.95-6);
+    
     
     
     g.setColour(Colours::ghostwhite);
-    g.setFont (Font("Calibri", 38.0f, Font::italic));
-    g.drawFittedText("Panagram", 10 , 12, getWidth(), 50, Justification::centredTop, 1);
+    g.setFont (Font("Herculanum", 45.0f, Font::italic));
+    g.drawFittedText("Panagram", 15 , 12, getWidth(), 50, Justification::centredTop, 1);
+    
+   
+    //button backing
+    
+    g.setColour(Colours::black);
+    g.setOpacity(0.50f);
+    g.drawRect(9, 116, (getWidth()/3.85), (getHeight()/1.95));
+    g.fillRect(12, 119, (getWidth()/3.85-6), (getHeight()/1.95-6));
+    
+    
+    g.setColour (Colours::ghostwhite);
+    g.setFont (Font("Herculanum", 25.0f, Font::italic));
+    g.drawFittedText ("Pan", getLocalBounds(), Justification::centred, 1);
     
    
     
+    g.setColour (Colours::ghostwhite);
+    g.setFont (Font("Herculanum", 25.0f, Font::italic));
+    g.drawFittedText("Linear", 100, 120, 80, 80, Justification::left, 1);
     
-    g.setColour(Colours::blueviolet);
-    g.drawRect(3, 73, 134, 44);
-    g.fillRect(5, 75, 130, 40);
+    g.setColour (Colours::ghostwhite);
+    g.setFont (Font("Herculanum", 25.0f, Font::italic));
+    g.drawFittedText("Sine", 100, 200, 80, 80, Justification::left, 1);
     
-    g.setColour (Colours::white);
-    g.setFont (15.0f);
-    g.drawFittedText ("Pan", getLocalBounds(), Justification::centred, 1);
+    g.setColour (Colours::ghostwhite);
+    g.setFont (Font("Herculanum", 25.0f, Font::italic));
+    g.drawFittedText("Square", 100, 275, 80, 80, Justification::left, 1);
+    
+    g.setColour (Colours::ghostwhite);
+    g.setFont (Font("Herculanum", 25.0f, Font::italic));
+    g.drawFittedText("-Root", 100, 295, 80, 80, Justification::left, 1);
    
 }
 
@@ -132,9 +159,11 @@ void MaggsA3AudioProcessorEditor::resized()
    
     panSlider.setBounds(r);
     
-    panLinearButton.setBounds(5, 75, 40, 40);
-    panSineButton.setBounds(50, 75, 40, 40);
-    panSqareRootButton.setBounds(95, 75, 40, 40);
+    auto spacing = leftSide.getHeight()/3;
+    
+    panLinearButton.setBounds(15.5, 130, 50, 50);
+    panSineButton.setBounds(15.5, 210, 50, 50);
+    panSqareRootButton.setBounds(15.5, 290, 50, 50);
 }
     
 

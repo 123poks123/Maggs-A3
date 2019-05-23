@@ -2,6 +2,10 @@
 
 <JUCERPROJECT id="poGfnz" name="Maggs A3" projectType="audioplug" jucerVersion="5.4.3">
   <MAINGROUP id="Q4XpjV" name="Maggs A3">
+    <GROUP id="{D22B4787-1A53-2601-A69D-9F494A90C7B8}" name="Picture">
+      <FILE id="TZHeGy" name="photo-1464457312035-3d7d0e0c058e.jpeg" compile="0"
+            resource="1" file="../../../Downloads/photo-1464457312035-3d7d0e0c058e.jpeg"/>
+    </GROUP>
     <GROUP id="{431C6D96-6122-CF7C-BAD2-32DAB288F44A}" name="Source">
       <FILE id="QBM7LA" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>

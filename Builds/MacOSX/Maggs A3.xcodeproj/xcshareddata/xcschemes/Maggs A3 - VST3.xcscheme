@@ -45,7 +45,7 @@
       <PathRunnable
          runnableDebuggingMode = "0"
          BundleIdentifier = "com.roli.juce.pluginhost"
-         FilePath = "/Users/Alex/Documents/SDK/JUCE/extras/AudioPluginHost/Builds/MacOSX/build/Debug/AudioPluginHost.app">
+         FilePath = "/Users/SEB/SDKS/JUCE/extras/AudioPluginHost/Builds/MacOSX/build/Debug/AudioPluginHost.app">
       </PathRunnable>
       <MacroExpansion>
          <BuildableReference
