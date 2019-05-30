@@ -10,7 +10,7 @@ Sebastian Fraser : Gui Design
 
 ## Media Links
 
-![Alt text](https://github.com/123poks123/Maggs-A3/blob/master/Screen%20Shot%202019-05-21%20at%2010.47.31%20AM.png)raw=true
+![Alt text](https://github.com/123poks123/Maggs-A3/blob/master/Screen%20Shot%202019-05-21%20at%2010.47.31%20AM.png)
 
 
 Video Link: 
