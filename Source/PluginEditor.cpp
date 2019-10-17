@@ -22,7 +22,7 @@ MaggsA3AudioProcessorEditor::MaggsA3AudioProcessorEditor (MaggsA3AudioProcessor&
     setResizable(false, false);
     setResizeLimits(720, 480, 720, 480);
     
-    bgImage = ImageCache::getFromMemory(BinaryData::photo14644573120353d7d0e0c058e_jpeg, BinaryData::photo14644573120353d7d0e0c058e_jpegSize);
+    bgImage = ImageCache::getFromMemory(BinaryData::firtrees18354024805b9c59e343322f6d60759ea4_jpg ,BinaryData::firtrees18354024805b9c59e343322f6d60759ea4_jpgSize);
     
     
     panSlider.setSliderStyle(Slider::SliderStyle::RotaryVerticalDrag);
